@@ -1,8 +1,12 @@
 var canvasElem = document.getElementById("game");
 var world = boxbox.createWorld(canvasElem);
+var angle = document.getElementById("angle");
+var power = document.getElementById("power");
 
 
-world.createEntity({
+
+
+var player = world.createEntity({
 	name: "player",
 	shape: "circle",
 	radius: 1,
@@ -10,6 +14,16 @@ world.createEntity({
 	imageStretchToFit: true,
 	x: 2,
 	density: 2,
+
+
+	onImpact: function  (entity, force) {
+		if (entity.name() === "block" || entity.name() === "pig") {
+			window.setTimeout(function(){
+				player.destroy();
+
+			}, 4000);
+		}
+	},
 
 	onKeyDown: function  (event) {
 		console.log(event);
@@ -23,6 +37,7 @@ world.createEntity({
 		}
 		
 	}
+	
 
 });
 
@@ -30,10 +45,11 @@ world.createEntity({
 	name: "ground",
 	shape: "square",
 	type: "static" ,
-	color: "rgb(0,100,0)" ,
-	width: 62,
-	height: .5 ,
-	y:  21,
+	color: "#ffffff",
+	borderWidth:"0",
+	width: 80,
+	height: 0 ,
+	y:  22.5,
 	x: 1 
 });
 
@@ -61,38 +77,38 @@ var pig = {
 };
 
 world.createEntity(block,{
-	x: 30.5,
+	x: 40.5,
 	height: 2.5,
 	y: 20
 });
 world.createEntity(block,{
-	x: 25.5,
+	x: 35.5,
 	height: 2.5,
 	y: 20
 });
 world.createEntity(block,{
-	x: 28,	
+	x: 38,	
 	width: 6,
 	height: .5,
 	y: 18.5,
 	name: "ground2"
 });
 world.createEntity(pig,{
-	x: 28,
-	y: 20
+	x: 38,
+	y: 17
 });
 
 
 world.createEntity(block,{
-	x: 30,
+	x: 40,
 	y: 16.7
 });
 world.createEntity(block,{
-	x: 26,
+	x: 36,
 	y: 16.7
 });
 world.createEntity(block,{
-	x: 28,	
+	x: 38,	
 	width: 5.5,
 	height: .5,
 	y: 15.7,
@@ -100,9 +116,13 @@ world.createEntity(block,{
 });
 
 world.createEntity(pig,{
-	x: 28,
-	y: 16,
+	x: 38,
+	y: 13,
 	image: "d.png"
 
 });
 
+function myFunction() {
+	player.applyImpulse(power.value, angle.value);
+	
+}
